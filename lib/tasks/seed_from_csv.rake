@@ -1,10 +1,7 @@
 namespace :csv_import do
   desc "Seed merchants.csv from db/data to database table"
-  task mydata: :environment do
+  task mydata: ['db:drop', 'db:create', 'db:migrate'] do
     require "csv"
-    rails db:drop
-    rails db:create
-    rails db:migrate
     # customers_text = CSV.read("db/data/customers.csv")
     # customers = CSV.parse(customers_text, :headers => true)
     # merchants_text = CSV.read("db/data/merchants.csv")
@@ -26,7 +23,9 @@ namespace :csv_import do
     end
     puts "Created #{Merchant.all.length} Merchants"
     CSV.foreach('db/data/items.csv', headers: true) do |row|
-      Item.create!(row.to_hash)
+      store = row.to_hash
+      store[:unit_price] = store[:unit_price].to_f / 100
+      Item.create!(store)
     end
     puts "Created #{Item.all.length} Items"
     CSV.foreach('db/data/invoices.csv', headers: true) do |row|
@@ -34,7 +33,9 @@ namespace :csv_import do
     end
     puts "Created #{Invoice.all.length} Invoices"
     CSV.foreach('db/data/invoice_items.csv', headers: true) do |row|
-      Invoice_item.create!(row.to_hash)
+      store = row.to_hash
+      store[:unit_price] = store[:unit_price].to_f / 100
+      InvoiceItem.create!(store)
     end
     puts "Created #{InvoiceItem.all.length} Invoice Items"
     CSV.foreach('db/data/transactions.csv', headers: true) do |row|
