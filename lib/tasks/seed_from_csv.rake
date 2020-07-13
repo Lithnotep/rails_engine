@@ -41,7 +41,6 @@ namespace :csv_import do
       Transaction.create!(row.to_hash)
     end
     puts "Created #{Transaction.all.length} Transactions"
-    rails db:migrate
     puts 'Successfully Seeded Database'
     # customers.each do |row|
     #   Customer.create!(row.to_hash)
