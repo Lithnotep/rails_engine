@@ -42,7 +42,7 @@ describe "Items API" do
   end
   it "can update a item" do
     merchant = create(:merchant)
-    item = item = create(:item, merchant_id: merchant.id)
+    item = create(:item, merchant_id: merchant.id)
     new_params = { name: Faker::Games::Pokemon.name ,
     description: Faker::Games::WorldOfWarcraft.quote,
     unit_price: Faker::Commerce.price,
@@ -55,6 +55,16 @@ describe "Items API" do
     expect(item_changed.name).to eq(new_params[:name])
     expect(item_changed.description).to eq(new_params[:description])
     expect(item_changed.unit_price).to eq(new_params[:unit_price])
+  end
+  it "can delete an item" do
+    merchant = create(:merchant)
+    item = create(:item, merchant_id: merchant.id)
+    expect(Item.count).to eq(1)
+    delete api_v1_item_path(item)
+
+    expect(response).to be_successful
+
+    expect(Item.count).to eq(0)
   end
 
 end
