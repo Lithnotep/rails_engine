@@ -50,11 +50,11 @@ describe "Items API" do
 
 
     patch api_v1_item_path(item), params: new_params
-    item_changed = Merchant.find(item.id)
+    item_changed = Item.find(item.id)
     expect(response).to be_successful
-    expect(item_changed.name).to eq(new_params.name)
-    expect(item_changed.name).to eq(new_params.description)
-    expect(item_changed.name).to eq(new_params.unit_price)
+    expect(item_changed.name).to eq(new_params[:name])
+    expect(item_changed.description).to eq(new_params[:description])
+    expect(item_changed.unit_price).to eq(new_params[:unit_price])
   end
 
 end
