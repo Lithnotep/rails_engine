@@ -66,5 +66,13 @@ describe "Items API" do
 
     expect(Item.count).to eq(0)
   end
+  it "relationship endpoint between merchant and items" do
+    merchant = create(:merchant)
+    item = create(:item, merchant_id: merchant.id)
+    get api_v1_item_merchant_path(item)
+
+
+
+  end
 
 end
