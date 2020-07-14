@@ -34,9 +34,9 @@ describe "Merchants API" do
   it "can create a merchant" do
     merchant = create(:merchant)
     expect(merchant.name).to_not eq("Billy")
-    patch api_v1_merchants_path, params: { name: "Billy"}
-    
+    patch api_v1_merchant_path(merchant), params: { name: "Billy"}
+    merchant_changed = Merchant.find(merchant.id)
     expect(response).to be_successful
-    expect(merchant.name).to eq("Billy")
+    expect(merchant_changed.name).to eq("Billy")
   end
 end
