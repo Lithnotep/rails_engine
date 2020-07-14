@@ -40,4 +40,21 @@ describe "Items API" do
     expect(item.description).to eq(item_params[:description])
     expect(item.unit_price).to eq(item_params[:unit_price])
   end
+  it "can update a item" do
+    merchant = create(:merchant)
+    item = item = create(:item, merchant_id: merchant.id)
+    new_params = { name: Faker::Games::Pokemon.name ,
+    description: Faker::Games::WorldOfWarcraft.quote,
+    unit_price: Faker::Commerce.price,
+    merchant_id: merchant.id}
+
+
+    patch api_v1_item_path(item), params: new_params
+    item_changed = Merchant.find(item.id)
+    expect(response).to be_successful
+    expect(item_changed.name).to eq(new_params.name)
+    expect(item_changed.name).to eq(new_params.description)
+    expect(item_changed.name).to eq(new_params.unit_price)
+  end
+
 end
