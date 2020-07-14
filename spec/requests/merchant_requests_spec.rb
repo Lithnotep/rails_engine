@@ -27,8 +27,16 @@ describe "Merchants API" do
   end
   it "can create a merchant" do
     post api_v1_merchants_path, params: { name: "Billy"}
-    
+
     expect(response).to be_successful
     expect(Merchant.last.name).to eq("Billy")
+  end
+  it "can create a merchant" do
+    merchant = create(:merchant)
+    expect(merchant.name).to_not eq("Billy")
+    patch api_v1_merchants_path, params: { name: "Billy"}
+    
+    expect(response).to be_successful
+    expect(merchant.name).to eq("Billy")
   end
 end
