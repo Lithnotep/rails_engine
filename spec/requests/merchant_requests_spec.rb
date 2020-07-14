@@ -20,9 +20,9 @@ describe "Merchants API" do
   it "can acquire a merchant by thier Id" do
     merchant = create(:merchant)
 
-    get '/apu/vi/merchants'
+    get "/api/v1/merchants/#{merchant.id}"
     expect(response).to be_successful
     merchant_json = JSON.parse(response.body)
-    expect(merchant_json["data"]['id']).to eq(merchant.id)
+    expect(merchant_json["data"]['id']).to eq("#{merchant.id}")
   end
 end
