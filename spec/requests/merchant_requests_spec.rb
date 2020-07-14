@@ -39,4 +39,13 @@ describe "Merchants API" do
     expect(response).to be_successful
     expect(merchant_changed.name).to eq("Billy")
   end
+  it "can delete a merchant" do
+    merchant = create(:merchant)
+    expect(Merchant.count).to eq(1)
+    delete api_v1_merchant_path(merchant)
+
+    expect(response).to be_successful
+
+    expect(Merchant.count).to eq(0)
+  end
 end
