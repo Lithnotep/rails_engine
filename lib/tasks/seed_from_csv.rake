@@ -24,7 +24,7 @@ namespace :csv_import do
     puts "Created #{Merchant.all.length} Merchants"
     CSV.foreach('db/data/items.csv', headers: true) do |row|
       store = row.to_hash
-      store[:unit_price] = store[:unit_price].to_f / 100
+      store["unit_price"] = store["unit_price"].to_f/100
       Item.create!(store)
     end
     puts "Created #{Item.all.length} Items"
@@ -34,7 +34,7 @@ namespace :csv_import do
     puts "Created #{Invoice.all.length} Invoices"
     CSV.foreach('db/data/invoice_items.csv', headers: true) do |row|
       store = row.to_hash
-      store[:unit_price] = store[:unit_price].to_f / 100
+      store["unit_price"] = store["unit_price"].to_f/100
       InvoiceItem.create!(store)
     end
     puts "Created #{InvoiceItem.all.length} Invoice Items"
