@@ -48,4 +48,17 @@ describe "Merchants API" do
 
     expect(Merchant.count).to eq(0)
   end
+  it "relationship endpoint between merchant and items" do
+    merchant = create(:merchant)
+    item1 = create(:item, merchant_id: merchant.id)
+    item2 = create(:item, merchant_id: merchant.id)
+    item3 = create(:item, merchant_id: merchant.id)
+
+    get api_v1_merchant_items_path(merchant)
+    expect(response).to be_successful
+    parsed = JSON.parse(response.body)
+    expect(parsed["data"][0]["attributes"]["name"]).to eq(item1.name)
+    expect(parsed["data"][1]["attributes"]["name"]).to eq(item2.name)
+    expect(parsed["data"][2]["attributes"]["name"]).to eq(item3.name)
+  end
 end

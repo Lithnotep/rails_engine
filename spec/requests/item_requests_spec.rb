@@ -66,5 +66,13 @@ describe "Items API" do
 
     expect(Item.count).to eq(0)
   end
+  it "has relationship endpoint between item and merchant" do
+    merchant = create(:merchant)
+    item = create(:item, merchant_id: merchant.id)
+    get "/api/v1/items/#{item.id}/merchant"
+    expect(response).to be_successful
+    parsed = JSON.parse(response.body)
+    expect(parsed["data"]["attributes"]['id']).to eq(merchant.id)
+  end
 
 end
