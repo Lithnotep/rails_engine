@@ -1,11 +1,14 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-    resources :merchants, except: [:edit, :new] do
-        resources :items, only: [:index], controller: 'merchant_items'
+      namespace :merchants do
+        get "/find", to: "search#show"
       end
-    resources :items, except: [:edit, :new] do
-        resources :merchant, only: [:index], controller: 'item_merchant'
+      resources :merchants, except: [:edit, :new] do
+          resources :items, only: [:index], controller: 'merchant_items'
+      end
+      resources :items, except: [:edit, :new] do
+          resources :merchant, only: [:index], controller: 'item_merchant'
       end
     end
   end
