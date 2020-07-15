@@ -8,8 +8,7 @@ describe "Merchant find API" do
     get "/api/v1/merchants/find?name=#{merchant.name.chop}"
     expect(response).to be_successful
     parsed = JSON.parse(response.body)
-    expect(parsed["data"].count).to eq(1)
-    expect(parsed["data"][0]["id"].to_i).to eq(merchant.id)
+    expect(parsed["data"]["id"].to_i).to eq(merchant.id)
   end
   xit "can get single Merchant via find with created at" do
     merchant = create(:merchant, name: "Billy Booo", created_at: 'Mon, 16 May 2013 06:30:21 UTC +00:00')
