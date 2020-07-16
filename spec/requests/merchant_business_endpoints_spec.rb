@@ -50,11 +50,12 @@ describe "Merchant Business" do
     transaction4 = create(:transaction, invoice_id: invoice4.id)
 
 
-    get "/api/v1/merchants/most_items?quantity=3"
+    get "/api/v1/merchants/most_items?quantity=2"
     expect(response).to be_successful
     parsed = JSON.parse(response.body, symbolize_names: true)
-    (parsed[:data].length).to eq(2)
+    expect(parsed[:data].length).to eq(2)
+    expect(parsed[:data][0][:id].to_i).to eq(merchant1.id)
 
-    (parsed[:data].length).to eq(2)
+
   end
 end

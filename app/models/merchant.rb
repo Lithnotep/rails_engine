@@ -29,12 +29,12 @@ class Merchant < ApplicationRecord
   end
 
   def self.most_items(param)
-    list = Merchant.join(invoices: [:invoice_items, :transactions])
-            .where("invoices.status='shipped' and transactions.result='success'")
+    list = Merchant.joins(invoices: [:invoice_items, :transactions])
+            .where("transactions.result ='success'")
             .group("merchants.name, merchants.id")
-            .select("merchants.name, sum(item_invoices.quantity) as items_sold")
+            .select("merchants.name, sum(invoice_items.quantity) as items_sold, merchants.id")
             .order("items_sold desc")
             .limit(param)
-    list.map {|merch|{ id: merch.id.to_s, attributes: { name: merch.name, Items_sold: merch.items_sold}}}
+    list.map {|merch|{ id: merch.id.to_s, attributes: { name: merch.name, items_sold: merch.items_sold}}}
   end
 end
