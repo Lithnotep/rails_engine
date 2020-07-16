@@ -8,4 +8,10 @@ RSpec.describe Merchant, type: :model do
   describe 'Relationships' do
     it {should have_many(:items)}
   end
+
+  describe 'Methods' do
+    it "can find most revenue" do
+
+    end
+  end
 end
