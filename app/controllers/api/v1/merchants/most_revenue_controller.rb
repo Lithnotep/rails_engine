@@ -1,7 +1,7 @@
-class Api::V1::Merchants::SearchController < ApplicationController
+class Api::V1::Merchants::MostRevenueController < ApplicationController
 
   def index
-    render json: MerchantSerializer.new(Merchant.locate_one(permitted_params))
+    render json: { data: Merchant.revenue(params[:quantity])}
   end
 
 end

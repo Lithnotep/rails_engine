@@ -18,7 +18,13 @@ class Merchant < ApplicationRecord
     Merchant.where('name ILIKE ?', "%#{params[:name]}%")
   end
 
-  def revenue
-    Merchant.joins(invoices: [:invoice_items, :transactions]).where("transactions.result = 'success'").group("merchants.name").select("merchants.name, sum(invoice_items.quantity * invoice_items.unit_price) as revenue")
+  def self.revenue(param)
+    list = Merchant.joins(invoices: [:invoice_items, :transactions])
+            .where("transactions.result = 'success'")
+            .group("merchants.name, merchants.id")
+            .select("merchants.name, sum(invoice_items.quantity * invoice_items.unit_price) as revenue, merchants.id")
+            .order("revenue desc")
+            .limit(param)
+    list.map {|merch|{ id: merch.id, name: merch.name, revenue: merch.revenue.round(2)}}
   end
 end
