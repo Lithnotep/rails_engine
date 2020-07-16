@@ -25,6 +25,16 @@ class Merchant < ApplicationRecord
             .select("merchants.name, sum(invoice_items.quantity * invoice_items.unit_price) as revenue, merchants.id")
             .order("revenue desc")
             .limit(param)
-    list.map {|merch|{ id: merch.id, name: merch.name, revenue: merch.revenue.round(2)}}
+    list.map {|merch|{ id: merch.id.to_s, attributes: { name: merch.name, revenue: merch.revenue.round(2)}}}
+  end
+
+  def self.most_items(param)
+    list = Merchant.join(invoices: [:invoice_items, :transactions])
+            .where("invoices.status='shipped' and transactions.result='success'")
+            .group("merchants.name, merchants.id")
+            .select("merchants.name, sum(item_invoices.quantity) as items_sold")
+            .order("items_sold desc")
+            .limit(param)
+    list.map {|merch|{ id: merch.id.to_s, attributes: { name: merch.name, Items_sold: merch.items_sold}}}
   end
 end
